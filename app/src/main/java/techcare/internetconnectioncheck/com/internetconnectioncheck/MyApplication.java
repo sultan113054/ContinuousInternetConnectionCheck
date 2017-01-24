@@ -3,28 +3,24 @@ package techcare.internetconnectioncheck.com.internetconnectioncheck;
 import android.app.Application;
 
 /**
- * Created by Sultan Mahmud on 1/24/2017.
+ * Created by am on 1/22/2017.
  */
 
 public class MyApplication extends Application {
 
-
     public static MyApplication mInstance;
+
     @Override
-     public void onCreate(){
-         super.onCreate();
-         mInstance=this;
+    public void onCreate() {
+        super.onCreate();
+        mInstance = this;
+    }
 
-     }
-
-    public static synchronized MyApplication getmInstance(){
-
+    public static synchronized MyApplication getInstance(){
         return mInstance;
     }
 
-    public  void setConnectivityReceiver(ConnectivityReceiver.ConnectivityReceiverListener listener){
-        ConnectivityReceiver.connectivityReceiverListener=listener;
-
-
+    public void setConnectivityRecceiver(ConnectivityReceiver.ConnectivityReceiverListener listener){
+        ConnectivityReceiver.connectivityReceiverListener = listener;
     }
 }

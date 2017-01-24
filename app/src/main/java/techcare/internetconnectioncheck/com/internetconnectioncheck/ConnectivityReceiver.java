@@ -7,39 +7,29 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 /**
- * Created by Sultan Mahmud on 1/24/2017.
+ * Created by am on 1/22/2017.
  */
 
 public class ConnectivityReceiver extends BroadcastReceiver {
     public static ConnectivityReceiverListener connectivityReceiverListener;
-
-    public ConnectivityReceiver(){
-        super();
-
-    }
     @Override
-    //When Connectivity state change this method will help to  capture it .This method will be called when connectivity state changed
     public void onReceive(Context context, Intent intent) {
-        ConnectivityManager connectivityManager= (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo=connectivityManager.getActiveNetworkInfo();
-        boolean isConnected=activeNetworkInfo!=null&&activeNetworkInfo.isConnectedOrConnecting();
-        if(connectivityReceiverListener!=null) {
-            connectivityReceiverListener.onNetworkChange(isConnected);
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 
+        if (connectivityReceiverListener != null){
+            connectivityReceiverListener.onNetworkChange(isConnected);
         }
     }
 
     public static boolean isConnected(){
-
-        ConnectivityManager connectivityManager= (ConnectivityManager)MyApplication.getmInstance().getApplicationContext().getSystemService(MyApplication.getmInstance().getApplicationContext().CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo=connectivityManager.getActiveNetworkInfo();
-        return  activeNetworkInfo!=null&&activeNetworkInfo.isConnectedOrConnecting();
-
+        ConnectivityManager cm = (ConnectivityManager) MyApplication.getInstance().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
-    public interface ConnectivityReceiverListener{
-        void onNetworkChange(boolean isConnected );
-
-
+    public interface ConnectivityReceiverListener {
+        public void onNetworkChange(boolean inConnected);
     }
 }

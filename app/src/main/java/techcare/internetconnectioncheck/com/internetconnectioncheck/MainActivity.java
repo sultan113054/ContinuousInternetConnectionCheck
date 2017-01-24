@@ -1,41 +1,64 @@
 package techcare.internetconnectioncheck.com.internetconnectioncheck;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.provider.Settings;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener{
+
+    public CoordinatorLayout coordinatorLayout;
+    public Button btnConnectivityCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+        btnConnectivityCheck = (Button) findViewById(R.id.btnConnectivityCheck);
+
         checkConnectivity();
+        btnConnectivityCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkConnectivity();
+            }
+        });
     }
-
-
-    protected void onResume(){
-        super.onResume();
-        MyApplication.getmInstance().setConnectivityReceiver(this);
-
-    }
-public void checkConnectivity() {
-
-    boolean isConnected = ConnectivityReceiver.isConnected();
-    show(isConnected);
-}
-private void show(boolean  isConnected) {
-
-    if(isConnected)
-        Toast.makeText(this,"Success",Toast.LENGTH_SHORT).show();
-
-    else
-        Toast.makeText(this,"Failed",Toast.LENGTH_SHORT).show();
-    }
-
 
     @Override
-    public void onNetworkChange(boolean isConnected) {
-        show(isConnected);
+    protected void onResume() {
+        super.onResume();
+        MyApplication.getInstance().setConnectivityRecceiver(this);
+    }
+
+    public void checkConnectivity(){
+        boolean isConnected = ConnectivityReceiver.isConnected();
+        showSnack(isConnected);
+    }
+
+    public void showSnack(boolean isConnected){
+        if (isConnected){
+            Snackbar.make(coordinatorLayout, getString(R.string.internet_connected), Snackbar.LENGTH_LONG).show();
+        }else {
+            Snackbar.make(coordinatorLayout, getString(R.string.no_internet_connected), Snackbar.LENGTH_INDEFINITE)
+                    .setAction(getString(R.string.settings), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
+                        }
+                    }).setActionTextColor(Color.RED)
+                    .show();
+        }
+    }
+
+    @Override
+    public void onNetworkChange(boolean inConnected) {
+        showSnack(inConnected);
     }
 }
