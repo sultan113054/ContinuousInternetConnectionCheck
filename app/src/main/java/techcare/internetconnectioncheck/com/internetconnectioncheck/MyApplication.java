@@ -22,7 +22,7 @@ public class MyApplication extends Application {
         return mInstance;
     }
 
-    public  void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener){
+    public  void setConnectivityReceiver(ConnectivityReceiver.ConnectivityReceiverListener listener){
         ConnectivityReceiver.connectivityReceiverListener=listener;
 
 

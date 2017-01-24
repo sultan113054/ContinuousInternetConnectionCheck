@@ -13,6 +13,12 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
         checkConnectivity();
     }
 
+
+    protected void onResume(){
+        super.onResume();
+        MyApplication.getmInstance().setConnectivityReceiver(this);
+
+    }
 public void checkConnectivity() {
 
     boolean isConnected = ConnectivityReceiver.isConnected();
@@ -20,15 +26,11 @@ public void checkConnectivity() {
 }
 private void show(boolean  isConnected) {
 
-    if(isConnected){
+    if(isConnected)
         Toast.makeText(this,"Success",Toast.LENGTH_SHORT).show();
 
-    }
-    else {
+    else
         Toast.makeText(this,"Failed",Toast.LENGTH_SHORT).show();
-
-
-    }
     }
 
 

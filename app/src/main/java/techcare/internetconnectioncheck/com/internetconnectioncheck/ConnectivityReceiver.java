@@ -12,6 +12,11 @@ import android.net.NetworkInfo;
 
 public class ConnectivityReceiver extends BroadcastReceiver {
     public static ConnectivityReceiverListener connectivityReceiverListener;
+
+    public ConnectivityReceiver(){
+        super();
+
+    }
     @Override
     //When Connectivity state change this method will help to  capture it .This method will be called when connectivity state changed
     public void onReceive(Context context, Intent intent) {
@@ -33,7 +38,7 @@ public class ConnectivityReceiver extends BroadcastReceiver {
     }
 
     public interface ConnectivityReceiverListener{
-        public void onNetworkChange(boolean isConnected );
+        void onNetworkChange(boolean isConnected );
 
 
     }
